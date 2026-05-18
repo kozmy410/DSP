@@ -1,0 +1,301 @@
+{
+    "host_apis": {
+        "0": {
+            "name": "MME",
+            "default_input_device": 1,
+            "default_output_device": 4
+        },
+        "1": {
+            "name": "Windows DirectSound",
+            "default_input_device": 6,
+            "default_output_device": 9
+        },
+        "2": {
+            "name": "Windows WASAPI",
+            "default_input_device": 15,
+            "default_output_device": 12
+        },
+        "3": {
+            "name": "Windows WDM-KS",
+            "default_input_device": 21,
+            "default_output_device": 23
+        }
+    },
+    "devices": {
+        "inputs": [
+            {
+                "index": 0,
+                "name": "Microsoft Sound Mapper - Input",
+                "host_api": "MME",
+                "max_inputs": 2,
+                "max_outputs": 0,
+                "default_samplerate": 44100.0,
+                "supported_rates": [
+                    44100,
+                    48000,
+                    88200,
+                    96000,
+                    192000
+                ]
+            },
+            {
+                "index": 1,
+                "name": "Microphone Array (Realtek High ",
+                "host_api": "MME",
+                "max_inputs": 2,
+                "max_outputs": 0,
+                "default_samplerate": 44100.0,
+                "supported_rates": [
+                    44100,
+                    48000,
+                    88200,
+                    96000,
+                    192000
+                ]
+            },
+            {
+                "index": 2,
+                "name": "Headset (2- WI-C200)",
+                "host_api": "MME",
+                "max_inputs": 1,
+                "max_outputs": 0,
+                "default_samplerate": 44100.0,
+                "supported_rates": [
+                    44100,
+                    48000,
+                    88200,
+                    96000,
+                    192000
+                ]
+            },
+            {
+                "index": 6,
+                "name": "Primary Sound Capture Driver",
+                "host_api": "Windows DirectSound",
+                "max_inputs": 2,
+                "max_outputs": 0,
+                "default_samplerate": 44100.0,
+                "supported_rates": [
+                    44100,
+                    48000,
+                    88200,
+                    96000,
+                    192000
+                ]
+            },
+            {
+                "index": 7,
+                "name": "Microphone Array (Realtek High Definition Audio)",
+                "host_api": "Windows DirectSound",
+                "max_inputs": 2,
+                "max_outputs": 0,
+                "default_samplerate": 44100.0,
+                "supported_rates": [
+                    44100,
+                    48000,
+                    88200,
+                    96000,
+                    192000
+                ]
+            },
+            {
+                "index": 8,
+                "name": "Headset (2- WI-C200)",
+                "host_api": "Windows DirectSound",
+                "max_inputs": 1,
+                "max_outputs": 0,
+                "default_samplerate": 44100.0,
+                "supported_rates": [
+                    44100,
+                    48000,
+                    88200,
+                    96000,
+                    192000
+                ]
+            },
+            {
+                "index": 14,
+                "name": "Headset (2- WI-C200)",
+                "host_api": "Windows WASAPI",
+                "max_inputs": 1,
+                "max_outputs": 0,
+                "default_samplerate": 16000.0,
+                "supported_rates": []
+            },
+            {
+                "index": 15,
+                "name": "Microphone Array (Realtek High Definition Audio)",
+                "host_api": "Windows WASAPI",
+                "max_inputs": 2,
+                "max_outputs": 0,
+                "default_samplerate": 48000.0,
+                "supported_rates": [
+                    48000
+                ]
+            },
+            {
+                "index": 17,
+                "name": "Headset (@System32\\drivers\\bthhfenum.sys,#2;%1 Hands-Free%0\r\n;(WI-C200))",
+                "host_api": "Windows WDM-KS",
+                "max_inputs": 1,
+                "max_outputs": 0,
+                "default_samplerate": 16000.0,
+                "supported_rates": []
+            },
+            {
+                "index": 18,
+                "name": "Input ()",
+                "host_api": "Windows WDM-KS",
+                "max_inputs": 2,
+                "max_outputs": 0,
+                "default_samplerate": 44100.0,
+                "supported_rates": [
+                    44100
+                ]
+            },
+            {
+                "index": 21,
+                "name": "Microphone Array (Realtek HD Audio Mic input)",
+                "host_api": "Windows WDM-KS",
+                "max_inputs": 2,
+                "max_outputs": 0,
+                "default_samplerate": 44100.0,
+                "supported_rates": [
+                    44100,
+                    48000
+                ]
+            },
+            {
+                "index": 22,
+                "name": "External Mic (Mic in at rear panel (black))",
+                "host_api": "Windows WDM-KS",
+                "max_inputs": 2,
+                "max_outputs": 0,
+                "default_samplerate": 44100.0,
+                "supported_rates": [
+                    44100,
+                    48000
+                ]
+            },
+            {
+                "index": 25,
+                "name": "Input (@System32\\drivers\\bthhfenum.sys,#4;%1 Hands-Free HF Audio%0\r\n;(Redmi Note 14 Pro))",
+                "host_api": "Windows WDM-KS",
+                "max_inputs": 1,
+                "max_outputs": 0,
+                "default_samplerate": 8000.0,
+                "supported_rates": []
+            }
+        ],
+        "outputs": [
+            {
+                "index": 3,
+                "name": "Microsoft Sound Mapper - Output",
+                "host_api": "MME",
+                "max_inputs": 0,
+                "max_outputs": 2,
+                "default_samplerate": 44100.0
+            },
+            {
+                "index": 4,
+                "name": "Headphones (2- WI-C200)",
+                "host_api": "MME",
+                "max_inputs": 0,
+                "max_outputs": 2,
+                "default_samplerate": 44100.0
+            },
+            {
+                "index": 5,
+                "name": "Speaker/HP (Realtek High Defini",
+                "host_api": "MME",
+                "max_inputs": 0,
+                "max_outputs": 2,
+                "default_samplerate": 44100.0
+            },
+            {
+                "index": 9,
+                "name": "Primary Sound Driver",
+                "host_api": "Windows DirectSound",
+                "max_inputs": 0,
+                "max_outputs": 2,
+                "default_samplerate": 44100.0
+            },
+            {
+                "index": 10,
+                "name": "Headphones (2- WI-C200)",
+                "host_api": "Windows DirectSound",
+                "max_inputs": 0,
+                "max_outputs": 2,
+                "default_samplerate": 44100.0
+            },
+            {
+                "index": 11,
+                "name": "Speaker/HP (Realtek High Definition Audio)",
+                "host_api": "Windows DirectSound",
+                "max_inputs": 0,
+                "max_outputs": 2,
+                "default_samplerate": 44100.0
+            },
+            {
+                "index": 12,
+                "name": "Headphones (2- WI-C200)",
+                "host_api": "Windows WASAPI",
+                "max_inputs": 0,
+                "max_outputs": 2,
+                "default_samplerate": 48000.0
+            },
+            {
+                "index": 13,
+                "name": "Speaker/HP (Realtek High Definition Audio)",
+                "host_api": "Windows WASAPI",
+                "max_inputs": 0,
+                "max_outputs": 2,
+                "default_samplerate": 192000.0
+            },
+            {
+                "index": 16,
+                "name": "Headset (@System32\\drivers\\bthhfenum.sys,#2;%1 Hands-Free%0\r\n;(WI-C200))",
+                "host_api": "Windows WDM-KS",
+                "max_inputs": 0,
+                "max_outputs": 1,
+                "default_samplerate": 16000.0
+            },
+            {
+                "index": 19,
+                "name": "Speakers (Realtek HD Audio output)",
+                "host_api": "Windows WDM-KS",
+                "max_inputs": 0,
+                "max_outputs": 2,
+                "default_samplerate": 44100.0
+            },
+            {
+                "index": 20,
+                "name": "Headphones (Realtek HD Audio 2nd output)",
+                "host_api": "Windows WDM-KS",
+                "max_inputs": 0,
+                "max_outputs": 2,
+                "default_samplerate": 44100.0
+            },
+            {
+                "index": 23,
+                "name": "Headphones ()",
+                "host_api": "Windows WDM-KS",
+                "max_inputs": 0,
+                "max_outputs": 2,
+                "default_samplerate": 48000.0
+            },
+            {
+                "index": 24,
+                "name": "Output (@System32\\drivers\\bthhfenum.sys,#4;%1 Hands-Free HF Audio%0\r\n;(Redmi Note 14 Pro))",
+                "host_api": "Windows WDM-KS",
+                "max_inputs": 0,
+                "max_outputs": 1,
+                "default_samplerate": 8000.0
+            }
+        ]
+    },
+    "system_defaults": {
+        "input_device_index": 1,
+        "output_device_index": 4
+    }
+}
