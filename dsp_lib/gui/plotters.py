@@ -118,38 +118,39 @@ def plot_spectrogram(frequencies, times, Zxx, ax=None, cmap='viridis', show_grid
     return ax, mesh
 
 def plot_imd_stems(metrics, ax=None, show_grid=True):
-    """
-    Creates a discrete stem plot to visually compare fundamental power vs IMD power.
-    """
     if ax is None:
         fig, ax = create_layout('standalone')
         
-    freqs = [metrics['imd3_lower_hz'], metrics['f1_hz'], metrics['f2_hz'], metrics['imd3_upper_hz']]
-    powers = [metrics['imd3_lower_db'], metrics['f1_db'], metrics['f2_db'], metrics['imd3_upper_db']]
-    colors = ['purple', 'blue', 'blue', 'purple']
-    labels = ['IMD3 Lower', 'Fundamental 1', 'Fundamental 2', 'IMD3 Upper']
+    freqs = [metrics['f1_hz'], metrics['f2_hz']]
+    powers = [metrics['f1_db'], metrics['f2_db']]
+    colors = ['blue', 'blue']
+    labels = ['F1', 'F2']
     
-    # Use Matplotlib's stem function for discrete spectral lines
+    if metrics['f3_hz'] > 0:
+        freqs.append(metrics['f3_hz'])
+        powers.append(metrics['f3_db'])
+        colors.append('blue')
+        labels.append('F3')
+
+    freqs.extend([metrics['imd2_hz'], metrics['imd3_hz']])
+    powers.extend([metrics['imd2_db'], metrics['imd3_db']])
+    colors.extend(['green', 'purple'])
+    labels.extend(['Worst IMD2 (Even)', 'Worst IMD3 (Odd)'])
+    
     for f, p, c, l in zip(freqs, powers, colors, labels):
         markerline, stemlines, baseline = ax.stem([f], [p], bottom=-100, label=l)
         plt.setp(stemlines, 'color', c, 'linewidth', 2.5)
         plt.setp(markerline, 'color', c, 'markersize', 8)
-        
-        # Annotate the exact dB value above the stem
         ax.text(f, p + 2, f"{p:.1f} dB", ha='center', color=c, fontweight='bold')
         
-    # Draw a line showing the Delta (ΔP) between Fundamental and IMD
-    ax.hlines(y=metrics['f1_db'], xmin=min(freqs), xmax=max(freqs), colors='blue', linestyles='dashed', alpha=0.3)
-    ax.hlines(y=metrics['imd3_lower_db'], xmin=min(freqs), xmax=max(freqs), colors='purple', linestyles='dashed', alpha=0.3)
-    
+    ax.hlines(y=metrics['p_fund_avg'], xmin=min(freqs), xmax=max(freqs), colors='blue', linestyles='dashed', alpha=0.3)
     ax.set_ylim(-100, max(powers) + 15)
     
-    # Pad the X-axis dynamically
     span = max(freqs) - min(freqs)
     ax.set_xlim(min(freqs) - (span * 0.2), max(freqs) + (span * 0.2))
     
-    apply_styling(ax, title=f"Hardware IMD Power Profile (OIP3: {metrics['oip3_db']:.1f} dB)", 
-                  xlabel="Frequency (Hz)", ylabel="Power (dB)", show_grid=show_grid)
+    apply_styling(ax, title=f"OIP2 (Even): {metrics['oip2_db']:.1f} dB | OIP3 (Odd): {metrics['oip3_db']:.1f} dB", 
+                  xlabel="Frequency (Hz)", ylabel="Power (dBFS)", show_grid=show_grid)
     ax.legend()
     return ax
 

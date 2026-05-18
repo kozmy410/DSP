@@ -103,52 +103,60 @@ def calculate_imd(frequencies, magnitudes, f1, f2, max_order=3, tolerance_hz=5.0
     
     return imd_ratio * 100.0
 
-def measure_linearity_metrics(frequencies, magnitudes, f1, f2, tolerance_hz=5.0):
+def measure_linearity_metrics(frequencies, magnitudes, f1, f2, f3=None, tolerance_hz=5.0):
     """
-    Measures absolute power of fundamentals vs IMD3 products and calculates OIP3.
-    
-    Parameters:
-        frequencies (np.ndarray): Array of frequency bins.
-        magnitudes (np.ndarray): Array of linear magnitudes.
-        f1 (float): First fundamental frequency.
-        f2 (float): Second fundamental frequency.
-        
-    Returns:
-        dict: Power metrics in decibels and calculated Intercept Point.
+    Measures absolute power of fundamentals vs Even (IMD2) and Odd (IMD3) products.
+    Calculates OIP2 and OIP3. Supports 2 or 3 tones.
     """
     df = frequencies[1] - frequencies[0]
     
     def get_power_db(target_freq):
+        if target_freq <= 0: return -100.0
         lower = max(0, int((target_freq - tolerance_hz) / df))
         upper = min(len(magnitudes), int((target_freq + tolerance_hz) / df) + 1)
         if lower >= len(magnitudes) or len(magnitudes[lower:upper]) == 0:
-            return -100.0 # Return noise floor if not found
+            return -100.0 
         peak_mag = np.max(magnitudes[lower:upper])
         return 20 * np.log10(max(peak_mag, 1e-10))
 
-    # Get power of fundamentals (P1, P2)
+    # 1. Fundamental Power (Average)
     p_f1 = get_power_db(f1)
     p_f2 = get_power_db(f2)
-    p_fund_avg = (p_f1 + p_f2) / 2.0
+    funds_p = [p_f1, p_f2]
+    if f3:
+        p_f3 = get_power_db(f3)
+        funds_p.append(p_f3)
+    p_fund_avg = sum(funds_p) / len(funds_p)
 
-    # Get power of 3rd Order IMD products (2*f1 - f2 and 2*f2 - f1)
-    imd3_lower_freq = abs(2 * f1 - f2)
-    imd3_upper_freq = abs(2 * f2 - f1)
-    
-    p_imd3_lower = get_power_db(imd3_lower_freq)
-    p_imd3_upper = get_power_db(imd3_upper_freq)
-    p_imd3_avg = (p_imd3_lower + p_imd3_upper) / 2.0
+    # 2. 2nd Order Products (Even)
+    imd2_freqs = [abs(f1 - f2), f1 + f2]
+    if f3:
+        imd2_freqs.extend([abs(f2 - f3), abs(f1 - f3), f1 + f3, f2 + f3])
+        
+    p_imd2_list = [get_power_db(f) for f in imd2_freqs]
+    p_imd2_max = max(p_imd2_list)
+    best_imd2_freq = imd2_freqs[p_imd2_list.index(p_imd2_max)]
 
-    # Calculate Output Third-Order Intercept Point (OIP3)
-    # Formula: OIP3 = P_fund + (P_fund - P_IMD3) / 2
-    delta_p = p_fund_avg - p_imd3_avg
-    oip3 = p_fund_avg + (delta_p / 2.0)
+    # 3. 3rd Order Products (Odd)
+    imd3_freqs = [abs(2*f1 - f2), abs(2*f2 - f1)]
+    if f3:
+        imd3_freqs.extend([abs(f1 + f2 - f3), abs(f1 - f2 + f3), abs(f2 + f3 - f1)])
+        
+    p_imd3_list = [get_power_db(f) for f in imd3_freqs]
+    p_imd3_max = max(p_imd3_list)
+    best_imd3_freq = imd3_freqs[p_imd3_list.index(p_imd3_max)]
+
+    # 4. Calculate Output Intercept Points
+    oip2 = p_fund_avg + (p_fund_avg - p_imd2_max)
+    oip3 = p_fund_avg + (p_fund_avg - p_imd3_max) / 2.0
 
     return {
         "f1_hz": f1, "f1_db": p_f1,
         "f2_hz": f2, "f2_db": p_f2,
-        "imd3_lower_hz": imd3_lower_freq, "imd3_lower_db": p_imd3_lower,
-        "imd3_upper_hz": imd3_upper_freq, "imd3_upper_db": p_imd3_upper,
-        "delta_db": delta_p,
-        "oip3_db": oip3
+        "f3_hz": f3 if f3 else 0.0, "f3_db": p_f3 if f3 else -100.0,
+        "imd2_hz": best_imd2_freq, "imd2_db": p_imd2_max,
+        "imd3_hz": best_imd3_freq, "imd3_db": p_imd3_max,
+        "oip2_db": oip2,
+        "oip3_db": oip3,
+        "p_fund_avg": p_fund_avg
     }
