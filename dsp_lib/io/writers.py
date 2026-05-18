@@ -25,7 +25,7 @@ def write_wav(filename, audio_array, sample_rate=44100, subtype='PCM_24', normal
         subtype = 'PCM_24'
 
     # 2. Enforce the strict 4.0 second maximum duration limit
-    max_samples = int(4.0 * sample_rate)
+    max_samples = int(20.0 * sample_rate)
     if len(audio_array) > max_samples:
         print(f"Warning: Array exceeds limits. Truncating before writing to {filename}.")
         audio_array = audio_array[:max_samples]

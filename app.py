@@ -249,7 +249,7 @@ class MainWindow(QMainWindow):
     def record_audio(self):
         try:
             # Removed the 4.0 second maximum cap
-            dur = float(self.rec_dur_input.text() or 4.0)
+            dur = float(self.rec_dur_input.text())
             if dur <= 0:
                 raise ValueError("Duration must be a positive number.")
                 
@@ -395,7 +395,7 @@ class MainWindow(QMainWindow):
     def on_gen_type_changed(self):
         sig_type = self.gen_type_combo.combo.currentText()
         schema = {
-            "Duration (s)": {"type": "float", "default": "4.0"}, # Max limit label removed
+            "Duration (s)": {"type": "float", "default": "40.0"}, # Max limit label removed
             "Sample Rate (Hz)": {"type": "float", "default": "48000.0"}
         }
         
@@ -416,7 +416,7 @@ class MainWindow(QMainWindow):
         
         try:
             # Min cap removed
-            dur = float(vals.get("Duration (s)", "4.0") or 4.0)
+            dur = float(vals.get("Duration (s)", "20.0") or 20.0)
             sr_input = int(float(vals.get("Sample Rate (Hz)", "48000.0") or 48000.0))
             
             if sig_type == "Sine Wave":
